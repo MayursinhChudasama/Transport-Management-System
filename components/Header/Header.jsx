@@ -9,11 +9,12 @@ export default function Header() {
         <Image
           src={logo}
           alt='SPS logo'
-          width='300'
-          height='150'
+          width='150'
+          height='auto'
+          priority
         />
       </Link>
-      <NavLink href='/new-LR'>New LR</NavLink>
+      <NavLink href='new-LR'>New Entry</NavLink>
       <NavLink href='/community'>Loading Sheet</NavLink>
     </nav>
   );

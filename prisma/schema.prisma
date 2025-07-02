@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model LR {
+  lr_no              BigInt   @id @default(autoincrement()) @map("lr-no")
+  created_at         DateTime @default(now()) @db.Timestamptz(6)
+  lr_type            String   @unique @map("lr-type")
+  consignor_name     String
+  consignor_gst      String
+  connsignor_address String
+  consginor_mob_no   BigInt
+  consignee_name     String
+  consignee_gst      String
+  consginee_address  String
+  consignee_mob_no   BigInt
+  no_of_articles     BigInt
+  article_type       String
+  nature_of_goods    String
+  gross_weight       Float
+  net_weight         Float
+  rate               Float
+  hamali             Float?
+  door_delivery      Float?
+  pickup_charge      Float?
+  other_charge       Float?
+  lr_invoice_no      String
+  lr_eway            String
+  lr_invoice_value   Float
+}
