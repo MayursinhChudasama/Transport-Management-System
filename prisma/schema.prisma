@@ -8,28 +8,29 @@ datasource db {
 }
 
 model LR {
-  lr_no              BigInt   @id @default(autoincrement()) @map("lr-no")
-  created_at         DateTime @default(now()) @db.Timestamptz(6)
-  lr_type            String   @unique @map("lr-type")
-  consignor_name     String
-  consignor_gst      String
-  connsignor_address String
-  consginor_mob_no   BigInt
-  consignee_name     String
-  consignee_gst      String
-  consginee_address  String
-  consignee_mob_no   BigInt
-  no_of_articles     BigInt
-  article_type       String
-  nature_of_goods    String
-  gross_weight       Float
-  net_weight         Float
-  rate               Float
-  hamali             Float?
-  door_delivery      Float?
-  pickup_charge      Float?
-  other_charge       Float?
-  lr_invoice_no      String
-  lr_eway            String
-  lr_invoice_value   Float
+  lr_no             Int      @id @default(autoincrement()) 
+  created_at        DateTime @default(now())
+  lr_type           String
+  consignor_name    String
+  consignor_gst     String
+  consignor_address String
+  consignor_mob_no  String
+  consignee_name    String
+  consignee_gst     String
+  consignee_address String
+  consignee_mob_no  String
+  no_of_articles    Int
+  article_type      String
+  nature_of_goods   String
+  gross_weight      Int
+  net_weight        Int
+  rate              Int
+  hamali            Int?
+  door_delivery     Int?
+  pickup_charge     Int?
+  other_charge      Int?
+  lr_invoice_no     String
+  lr_eway           String
+  lr_invoice_value  Int
 }
+
