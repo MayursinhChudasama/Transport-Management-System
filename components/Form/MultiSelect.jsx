@@ -1,9 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function MultiSelect({ label, id, options = [], value = "", onChange }) {
+export default function MultiSelect({ label, id, options = [], value = "", onChange, error=false }) {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prev) => !prev);
   const containerRef = useRef(null);
+  
+  // Internal selected value so the component can work uncontrolled if parent doesn't manage state
+  const [selected, setSelected] = useState(value);
+
+  // Sync internal selection when the controlled `value` prop changes
+  useEffect(() => {
+    setSelected(value);
+  }, [value]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -17,28 +25,32 @@ export default function MultiSelect({ label, id, options = [], value = "", onCha
   }, []);
 
   const handleSelect = (opt) => {
-    onChange?.(opt);
+    setSelected(opt);          // update local state
+    onChange?.(opt);           // inform parent if provided
     setOpen(false);
   };
 
-  const displayText = value ? value : "Select";
+  const displayText = selected ? selected : "Select";
   const clearSelection = (e) => {
     e.stopPropagation(); // prevent dropdown toggle
+    setSelected("");
     onChange?.("");
   };
 
   return (
     <div className="relative" ref={containerRef}>
+      {/* hidden input so selected value is included in native form submission */}
+      <input type="hidden" name={id} value={selected} />
       <button
         type="button"
         className="border-b-2 border-gray-300 pb-1 mt-8 text-left w-40 focus:outline-none focus:border-[#e87f05]"
         onClick={toggle}
         id={id}
       >
-        <span className="text-sm text-gray-400">{label}</span>
+        <span className="text-sm text-gray-400">{label} {error && <span className="text-red-500 font-bold">!</span>}</span>
         <div className="flex items-center justify-between text-base text-gray-200">
           <span className="truncate flex-1">{displayText}</span>
-          {value ? (
+          {selected ? (
             <span
               onClick={clearSelection}
               className="ml-2 text-gray-400 hover:text-gray-200 cursor-pointer"
@@ -58,9 +70,8 @@ export default function MultiSelect({ label, id, options = [], value = "", onCha
               className="flex items-center gap-2 px-2 py-1 hover:bg-gray-700 cursor-pointer text-sm text-gray-200"
             >
               <input
-                type="radio"
-                name={id}
-                checked={value === opt}
+                type="radio"                
+                checked={selected === opt}
                 onChange={() => handleSelect(opt)}
                 className="accent-[#e87f05]"
               />

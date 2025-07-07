@@ -7,6 +7,24 @@ export async function POST(req) {
     const body = await req.json();
     console.log("body-->>", body);
 
+    // ------------------- validation -------------------
+    const requiredFields = Object.keys(body);
+    const errors = [];
+
+    requiredFields.forEach((f) => {
+      if (!body[f] || `${body[f]}`.trim() === "") {
+        errors.push(`${f} is required`);
+      }
+    });
+
+   
+
+    
+
+    if (errors.length) {
+      return Response.json({ errors }, { status: 400 });
+    }
+
     const lrEntry = await prisma.lR.create({
       data: {
         lr_type: body.lr_type,
@@ -34,7 +52,7 @@ export async function POST(req) {
       },
     });
 
-    return Response.json(lrEntry);
+    return Response.json(lrEntry, { status: 201 });
   } catch (error) {
     console.error("❌ API Error:", error);
     return new Response("Internal Server Error", { status: 500 });
