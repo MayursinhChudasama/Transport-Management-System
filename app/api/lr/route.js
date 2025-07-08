@@ -2,6 +2,39 @@ import prisma from "@/lib/prisma";
 
 console.log("starts");
 
+export async function GET(req) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const lr_no = searchParams.get("lr_no");
+    if (lr_no) {
+      const lr = await prisma.lR.findUnique({ where: { lr_no: parseInt(lr_no) } });
+      if (!lr) return new Response("Not Found", { status: 404 });
+      return Response.json(lr, { status: 200 });
+    }
+    // list all
+    const lrs = await prisma.lR.findMany({
+      orderBy: { created_at: "desc" },
+    });
+    console.log("lrs", lrs);
+    return Response.json(lrs, { status: 200 });
+  } catch (error) {
+    console.error("API Error:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  }
+}
+
+export async function DELETE(req) {
+  try {
+    const { lr_no } = await req.json();
+    if (!lr_no) return new Response("lr_no required", { status: 400 });
+    await prisma.lR.delete({ where: { lr_no: parseInt(lr_no) } });
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    console.error("API Error:", error);
+    return new Response("Internal Server Error", { status: 500 });
+  }
+}
+
 export async function POST(req) {
   try {
     const body = await req.json();
@@ -12,14 +45,15 @@ export async function POST(req) {
     const errors = [];
 
     requiredFields.forEach((f) => {
-      if (!body[f] || `${body[f]}`.trim() === "") {
+      if (!body[f] || `${body[f]}`.
+        trim() === "") {
         errors.push(`${f} is required`);
       }
     });
 
-   
 
-    
+
+
 
     if (errors.length) {
       return Response.json({ errors }, { status: 400 });
@@ -54,7 +88,7 @@ export async function POST(req) {
 
     return Response.json(lrEntry, { status: 201 });
   } catch (error) {
-    console.error("❌ API Error:", error);
+    console.error("API Error:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

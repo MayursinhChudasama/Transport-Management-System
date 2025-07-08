@@ -22,6 +22,7 @@ export default function Header({ onSearch }) {
           {/* Nav links */}
           <div className="hidden md:flex flex-1 justify-center gap-6">
             <Link href="/new-LR" className="text-gray-300 hover:text-[#e87f05] transition-colors">New Entry</Link>
+            <Link href="/all-lr" className="text-gray-300 hover:text-[#e87f05] transition-colors">All LR</Link>
             <Link href="/community" className="text-gray-300 hover:text-[#e87f05] transition-colors">Loading Sheet</Link>
           </div>
 

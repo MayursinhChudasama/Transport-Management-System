@@ -9,8 +9,8 @@ import Input from "./Input";
  * Usage: Simply replace your import of "./Input" with "./SuggestInput".
  * All props supported by <Input> continue to work (label, id, width, error, ...).
  */
-export default function SuggestInput(props) {
-  const { id } = props;
+export default function SuggestInput({ id }) {
+  
   const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function SuggestInput(props) {
   return (
     <>
       {/* Forward all props to Input, plus the datalist reference */}
-      <Input {...props} list={listId} />
+      <Input list={listId} />
 
       {suggestions.length > 0 && (
         <datalist id={listId}>
