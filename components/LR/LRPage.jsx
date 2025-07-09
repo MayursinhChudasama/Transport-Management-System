@@ -48,7 +48,7 @@ export default function LRPage({ data = {} }) {
           className='px-4 py-2 bg-gray-600 hover:bg-gray-700 hover:cursor-pointer rounded'
           type='button'
         >
-         {isEditing ? "Discard Changes" : "Cancel"}
+         {isEditing ? "Discard Changes" : "Cancell"}
         </button>
       </div>
     <div className='w-full bg-[#1b1b1b]  rounded-lg shadow-lg flex flex-col gap-8'>
